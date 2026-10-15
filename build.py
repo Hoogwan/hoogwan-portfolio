@@ -15,6 +15,17 @@ def head(title):
             '<meta name="claude:viewport-fit-sides" content="cover">\n'
             '<meta name="description" content="Researcher-engineer bridging advanced process innovation with system-level architecture for next-generation 3D integration">\n'
             '<link rel="icon" type="image/svg+xml" href="assets/engineer.svg">\n'
+            '<meta property="og:type" content="website">\n'
+            '<meta property="og:site_name" content="Hoogwan\'s Portfolio">\n'
+            '<meta property="og:title" content="Hoogwan\'s Portfolio">\n'
+            '<meta property="og:description" content="Hoogwan Lee · Semiconductor Engineering · Advanced Packaging">\n'
+            '<meta property="og:url" content="https://hoogwan-portfolio.vercel.app/">\n'
+            '<meta property="og:image" content="https://hoogwan-portfolio.vercel.app/assets/og-image.png">\n'
+            '<meta property="og:image:width" content="1200">\n'
+            '<meta property="og:image:height" content="630">\n'
+            '<meta name="twitter:card" content="summary_large_image">\n'
+            '<meta name="twitter:title" content="Hoogwan\'s Portfolio">\n'
+            '<meta name="twitter:image" content="https://hoogwan-portfolio.vercel.app/assets/og-image.png">\n'
             + FONTS + f'<style>\n{css}</style>\n')
 
 def masthead(prefix, current=None):
@@ -41,6 +52,7 @@ def masthead(prefix, current=None):
     <nav class="nav" id="nav" aria-label="Sections">
       {nav_html}
     </nav>
+    <a class="nb-btn" href="https://advanced-packaging-study-hg.vercel.app/" target="_blank" rel="noopener">Lab Notebook <span aria-hidden="true">↗</span></a>
   </div>
 </header>
 '''

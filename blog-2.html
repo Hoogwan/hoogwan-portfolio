@@ -7,6 +7,17 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Researcher-engineer bridging advanced process innovation with system-level architecture for next-generation 3D integration">
 <link rel="icon" type="image/svg+xml" href="assets/engineer.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hoogwan's Portfolio">
+<meta property="og:title" content="Hoogwan's Portfolio">
+<meta property="og:description" content="Hoogwan Lee · Semiconductor Engineering · Advanced Packaging">
+<meta property="og:url" content="https://hoogwan-portfolio.vercel.app/">
+<meta property="og:image" content="https://hoogwan-portfolio.vercel.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hoogwan's Portfolio">
+<meta name="twitter:image" content="https://hoogwan-portfolio.vercel.app/assets/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -80,6 +91,9 @@ a { color: inherit; }
 .nav a.active::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 18px; height: 2px; background: var(--signal); }
 .nav a.page::after { content: " ↗"; font-weight: 500; color: var(--ink-soft); position: static; background: none; }
 
+.nb-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 999px; background: var(--signal); color: var(--bg); font-size: 13.5px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: filter .15s, transform .15s; }
+.nb-btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+
 /* ---------- shared scaffolding ---------- */
 section { scroll-margin-top: calc(var(--masthead-h) + 12px); }
 .block { padding-block: 30px 20px; }
@@ -134,6 +148,21 @@ section { scroll-margin-top: calc(var(--masthead-h) + 12px); }
 .course-list { margin: 0; padding: 0; list-style: none; }
 .course-list.two { columns: 2; column-gap: 28px; }
 .course-list li { break-inside: avoid; padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-mid); }
+
+/* ---------- lab notebook feature card ---------- */
+.nb-card { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: stretch; margin-bottom: 40px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; text-decoration: none; background: var(--plate); transition: border-color .2s, box-shadow .2s; }
+.nb-card:hover { border-color: var(--signal); box-shadow: 0 6px 24px rgba(23,58,110,0.12); }
+.nb-shot { display: block; background: #232a33; padding: 18px; }
+.nb-shot img { display: block; width: 100%; height: 100%; max-width: 100%; object-fit: contain; transition: transform .4s; }
+.nb-card:hover .nb-shot img { transform: scale(1.03); }
+.nb-text { display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 26px 30px; background: var(--bg); }
+.nb-kicker { display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); }
+.nb-kicker img { width: 22px; height: 22px; }
+.nb-title { font-family: var(--serif); font-size: 22px; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+.nb-desc { font-size: 14.5px; line-height: 1.6; color: var(--ink-mid); }
+.nb-cta { align-self: flex-start; margin-top: 6px; padding: 9px 18px; border-radius: 999px; background: var(--signal); color: var(--bg); font-size: 14px; font-weight: 600; }
+.nb-cta span { display: inline-block; transition: transform .2s; }
+.nb-card:hover .nb-cta span { transform: translateX(3px); }
 
 /* ---------- rows ---------- */
 .rows { display: flex; flex-direction: column; }
@@ -276,6 +305,10 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
   .nav { margin-left: -12px; }
   .nav a { padding: 14px 12px 18px; }
   .nav a.active::after { bottom: 10px; }
+  .masthead .wrap { position: relative; }
+  .nb-btn { position: absolute; top: 18px; right: max(24px, env(safe-area-inset-right, 0px)); padding: 7px 13px; font-size: 12.5px; }
+  .nb-card { grid-template-columns: 1fr; }
+  .nb-text { padding: 20px 20px 22px; }
   .lead-top { padding-block: 32px 22px; }
   .lead { grid-template-columns: 1fr; gap: 28px; }
   .tabpanel { min-height: 0; }
@@ -293,6 +326,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
 @media (max-width: 640px) {
   .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   :root { --masthead-h: 104px; }
+  .nb-btn { right: max(16px, env(safe-area-inset-right, 0px)); }
   .row { grid-template-columns: 1fr; gap: 8px; }
   .when .deg { display: inline; font-size: 22px; margin-right: 8px; }
   .facts li { grid-template-columns: 1fr; gap: 2px; }
@@ -329,6 +363,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
       <a href="cleanroom.html" class="active" aria-current="page">Cleanroom</a>
       <a href="./#connect">Connect</a>
     </nav>
+    <a class="nb-btn" href="https://advanced-packaging-study-hg.vercel.app/" target="_blank" rel="noopener">Lab Notebook <span aria-hidden="true">↗</span></a>
   </div>
 </header>
 <main>
