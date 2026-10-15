@@ -18,7 +18,7 @@ def head(title):
             + FONTS + f'<style>\n{css}</style>\n')
 
 def masthead(prefix, current=None):
-    items = [("about", "About"), ("education", "Education"), ("research", "Research"),
+    items = [("about", "Home"), ("education", "Education"), ("research", "Research"),
              ("publications", "Publications"), ("conferences", "Conferences"),
              ("cleanroom", "Cleanroom"), ("connect", "Connect")]
     links = []
