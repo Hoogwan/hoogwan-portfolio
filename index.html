@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hoogwan Lee</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Researcher-engineer bridging advanced process innovation with system-level architecture for next-generation 3D integration">
+<link rel="icon" type="image/svg+xml" href="assets/engineer.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: science-journal front page (as Hoogwan's Lab Notebook) — white page, ink type, heavy rules in one deep-blue signal colour */
+:root {
+  --ink: #16191d;
+  --slate: #232a33;
+  --mist: #c8c5bc;
+  --bg: #ffffff;
+  --plate: #ffffff;
+  --panel: #f4f3ef;
+  --line: #e2e0da;
+  --line-strong: #c8c5bc;
+  --ink-mid: #444a51;
+  --ink-soft: #7d838a;
+  --rule: #173a6e;
+  --signal: #1d4b8f;
+  --band: #232a33;
+  --band-deep: #16191d;
+  --on-band: #ffffff;
+  --on-band-soft: #c3cad2;
+  --serif: 'Literata', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, 'Apple SD Gothic Neo', sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  --masthead-h: 72px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418; --plate: #ffffff; --panel: #1b1e23; --line: #2b2f36; --line-strong: #3d424a; --mist: #4b5361;
+    --ink: #eceae5; --ink-mid: #b9bcc1; --ink-soft: #868b92; --rule: #4f7cc4; --signal: #8fb2ea;
+    --band: #1e242c; --band-deep: #0f1114; --on-band: #f4f4f2; --on-band-soft: #aab2bb;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121418; --plate: #ffffff; --panel: #1b1e23; --line: #2b2f36; --line-strong: #3d424a; --mist: #4b5361;
+  --ink: #eceae5; --ink-mid: #b9bcc1; --ink-soft: #868b92; --rule: #4f7cc4; --signal: #8fb2ea;
+  --band: #1e242c; --band-deep: #0f1114; --on-band: #f4f4f2; --on-band-soft: #aab2bb;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- masthead ---------- */
+.masthead { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); box-shadow: inset 0 -4px 0 var(--rule); }
+.masthead .wrap { display: flex; align-items: center; gap: 28px; min-height: var(--masthead-h); }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+.brand img { width: 44px; height: 44px; display: block; }
+.brand-name { display: block; font-family: var(--serif); font-size: 24px; font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: "opsz" 60; }
+.brand-name em { font-style: italic; font-weight: 500; color: var(--signal); }
+.brand-sub { display: block; margin-top: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.nav { margin-left: auto; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a { position: relative; padding: 24px 12px; font-size: 14px; font-weight: 600; color: var(--ink-soft); text-decoration: none; white-space: nowrap; transition: color .15s; }
+.nav a:hover, .nav a.active { color: var(--ink); }
+.nav a.active::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 18px; height: 2px; background: var(--signal); }
+.nav a.page::after { content: " ↗"; font-weight: 500; color: var(--ink-soft); position: static; background: none; }
+
+/* ---------- shared scaffolding ---------- */
+section { scroll-margin-top: calc(var(--masthead-h) + 12px); }
+.block { padding-block: 30px 20px; }
+.head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; border-bottom: 3px solid var(--rule); padding-bottom: 12px; margin-bottom: 4px; }
+.head h2 { margin: 0; font-family: var(--serif); font-size: 28px; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
+.head-note { margin-left: auto; font-size: 13px; color: var(--ink-soft); }
+.kicker { font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); }
+.sub { margin: 28px 0 0; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.link { text-decoration: none; background-image: linear-gradient(var(--signal), var(--signal)); background-size: 0 1.5px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .25s; }
+.link:hover { background-size: 100% 1.5px; }
+.more::after { content: " →"; color: var(--signal); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 11px; font-size: 12.5px; color: var(--ink-mid); background: transparent; white-space: nowrap; }
+
+/* ---------- lead / tabs ---------- */
+.lead { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding-block: 44px 36px; }
+.lead > * { min-width: 0; }
+.lead h1 { margin: 14px 0 22px; font-family: var(--serif); font-size: clamp(30px, 3.5vw, 44px); font-weight: 700; line-height: 1.12; letter-spacing: -0.03em; font-variation-settings: "opsz" 72; text-wrap: balance; }
+.lead h1 em { font-style: italic; font-weight: 500; color: var(--signal); }
+.tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; }
+.tab { position: relative; border: 0; background: none; padding: 0 0 10px; font: 600 14px var(--sans); color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); }
+.tab[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--signal); }
+.tabpanel { min-height: 250px; }
+.tabpanel p { margin: 0 0 16px; font-size: 15.5px; line-height: 1.72; color: var(--ink-mid); max-width: 560px; }
+.kv { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; max-width: 560px; }
+.kv li { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2px 16px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.kv li span:last-child { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.interest-tags { margin: 4px 0 18px; }
+.stats { display: flex; flex-wrap: wrap; row-gap: 14px; margin-top: 24px; }
+.stats div { display: flex; flex-direction: column; padding-right: 18px; margin-right: 18px; border-right: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.stats div:last-child { border-right: none; }
+.stats b { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; text-transform: none; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.fig { margin: 0; }
+.fig img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 3px; max-width: 100%; }
+.fig figcaption { margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
+.fig figcaption b { font-family: var(--serif); color: var(--ink); margin-right: 4px; }
+
+/* ---------- coursework (expandable) ---------- */
+.courses { border-bottom: 1px solid var(--line); }
+.courses summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 12px; padding: 18px 0; font-family: var(--serif); font-size: 20px; font-weight: 700; letter-spacing: -0.015em; }
+.courses summary::-webkit-details-marker { display: none; }
+.courses summary::before { content: "+"; width: 18px; font-family: var(--sans); font-weight: 500; color: var(--signal); }
+.courses[open] summary::before { content: "−"; }
+.courses summary:hover { color: var(--signal); }
+.courses-count { font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--ink-soft); letter-spacing: 0; }
+.courses-body { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; padding: 0 0 24px 30px; }
+.courses-body > * { min-width: 0; }
+.courses-body h3 { margin: 0 0 8px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); }
+.courses-body h3 span { color: var(--ink-soft); margin-left: 4px; }
+.course-list { margin: 0; padding: 0; list-style: none; }
+.course-list.two { columns: 2; column-gap: 28px; }
+.course-list li { break-inside: avoid; padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-mid); }
+
+/* ---------- rows ---------- */
+.rows { display: flex; flex-direction: column; }
+.row { display: grid; grid-template-columns: 170px 1fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.row > * { min-width: 0; }
+.when { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; padding-top: 4px; }
+.when .deg { display: block; font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.1; margin-bottom: 4px; }
+.row h3 { margin: 0 0 4px; font-family: var(--serif); font-size: 20px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.3; }
+.row .where { margin: 0 0 10px; color: var(--ink-mid); font-size: 14.5px; }
+.facts { margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-size: 14.5px; max-width: 760px; border-bottom: 1px solid var(--line); }
+.facts li { display: grid; grid-template-columns: 128px 1fr; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.facts li > span { min-width: 0; }
+.facts li > span:first-child { color: var(--ink-soft); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.thesis { font-family: var(--serif); font-style: italic; font-size: 16px; }
+
+/* figures inside research rows */
+.plates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.plate { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.zoom { display: block; width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--plate); cursor: zoom-in; transition: border-color .15s; }
+.zoom:hover { border-color: var(--mist); }
+.zoom img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; max-width: 100%; }
+.plate figcaption { font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
+.plate figcaption b { font-family: var(--serif); color: var(--ink); margin-right: 4px; }
+
+/* ---------- publications: first-author ---------- */
+.lead-pubs { list-style: none; margin: 0; padding: 0; }
+.lead-pub { display: grid; grid-template-columns: 200px 1fr 60px; gap: 24px; align-items: start; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.lead-pub > * { min-width: 0; }
+.lead-pub .zoom { padding: 6px; }
+.lead-pub .zoom img { aspect-ratio: 16 / 10; }
+.pub-title { margin: 0 0 6px; font-family: var(--serif); font-size: 18px; font-weight: 600; line-height: 1.38; letter-spacing: -0.01em; }
+.pub-title a { text-decoration: none; }
+.pub-auth { margin: 0 0 3px; font-size: 13.5px; color: var(--ink-mid); }
+.pub-auth b { color: var(--ink); font-weight: 700; }
+.pub-venue { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+.pub-venue i { color: var(--ink-mid); }
+.pub-doi { display: block; margin-top: 3px; font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
+.pub-year { text-align: right; font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--ink-mid); padding-top: 2px; }
+
+/* ---------- conferences: first-author ---------- */
+.confs { list-style: none; margin: 0; padding: 0; }
+.conf { display: grid; grid-template-columns: 150px 1fr 72px; gap: 18px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.conf > * { min-width: 0; }
+.conf-ev { font-family: var(--serif); font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+.conf-ev small { display: block; font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); }
+.conf-title { margin: 0 0 3px; font-size: 15px; font-weight: 500; line-height: 1.45; }
+.conf-auth { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.conf-auth b { color: var(--ink-mid); }
+.type { justify-self: end; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--line-strong); color: var(--ink-soft); padding: 2px 8px; border-radius: 2px; }
+.type.oral { border-color: var(--signal); color: var(--signal); }
+
+/* ---------- co-authored: compact three-column cards ---------- */
+.co-grid { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.co { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--panel); border-radius: 3px; min-width: 0; }
+.co-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.co-title { margin: 0; font-family: var(--serif); font-size: 14.5px; font-weight: 600; line-height: 1.4; }
+.co-title a { text-decoration: none; }
+.co-auth { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
+.co-auth b { color: var(--ink-mid); }
+.co-venue { margin: auto 0 0; font-size: 12px; color: var(--ink-mid); font-style: italic; }
+.co .type { justify-self: auto; font-size: 10px; padding: 1px 6px; }
+
+/* ---------- lab notebook card ---------- */
+.note-card { margin-top: 22px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--panel); padding: 18px 20px; border-radius: 3px; }
+.note-card img { width: 40px; height: 40px; }
+.note-card > div { flex: 1; min-width: 200px; }
+.note-card strong { display: block; font-family: var(--serif); font-size: 17px; }
+.note-card span { font-size: 13.5px; color: var(--ink-mid); }
+.note-card a { font-weight: 600; font-size: 14px; text-decoration: none; }
+
+/* ---------- cleanroom page ---------- */
+.page-head { padding-block: 44px 8px; }
+.page-head h1 { margin: 12px 0 10px; font-family: var(--serif); font-size: clamp(32px, 4vw, 46px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.page-head p { margin: 0; max-width: 620px; font-size: 16px; color: var(--ink-mid); }
+.video { margin-top: 26px; position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; background: var(--band-deep); border-radius: 3px; overflow: hidden; }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.back { font-size: 13.5px; font-weight: 600; text-decoration: none; color: var(--ink-soft); }
+.back:hover { color: var(--ink); }
+.tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0 28px; margin-top: 6px; }
+.tool { padding: 12px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 1px; }
+.tool b { font-weight: 600; font-size: 14.5px; }
+.tool span { font-size: 12.5px; color: var(--ink-soft); font-family: var(--mono); }
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.skills h3 { margin: 22px 0 10px; font-family: var(--serif); font-size: 18px; }
+
+/* ---------- blog cards & posts ---------- */
+.blog-lede { margin: 14px 0 0; max-width: 620px; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-mid); }
+.blog-grid { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.post-card { display: flex; flex-direction: column; gap: 14px; height: 100%; padding: 14px 14px 18px; background: var(--panel); border-radius: 4px; text-decoration: none; transition: background .2s; }
+.post-card:hover { background: var(--line); }
+.post-card img { display: block; width: 100%; height: auto; aspect-ratio: 347 / 242; object-fit: cover; border-radius: 3px; max-width: 100%; background: var(--plate); }
+.post-title { font-family: var(--serif); font-size: 17px; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; }
+.post-go { margin-top: auto; align-self: center; width: 28px; height: 28px; border-radius: 50%; background: var(--signal); color: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 15px; transition: transform .2s; }
+.post-card:hover .post-go { transform: translateX(3px); }
+.post-hero { margin: 26px 0 0; max-width: 760px; }
+.post-hero img { display: block; width: 100%; height: auto; border-radius: 3px; max-width: 100%; }
+.post-body { max-width: 720px; padding-block: 24px 8px; font-size: 16px; line-height: 1.75; color: var(--ink-mid); }
+.post-pending { padding: 16px 18px; border-left: 2px solid var(--line-strong); color: var(--ink-soft); font-style: italic; }
+
+/* ---------- connect ---------- */
+.connect { margin-top: 44px; background: var(--band); color: var(--on-band); }
+.connect .wrap { padding-block: 56px; display: grid; grid-template-columns: 360px 1fr; gap: 52px; align-items: center; }
+.connect .wrap > * { min-width: 0; }
+.connect .kicker { color: var(--on-band-soft); }
+.portrait { margin: 0; }
+.portrait img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 47% 60%; border-radius: 3px; max-width: 100%; }
+.connect h2 { margin: 12px 0 6px; font-family: var(--serif); font-size: clamp(30px, 3.4vw, 42px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.affil { margin: 0 0 26px; color: var(--on-band-soft); font-size: 15px; line-height: 1.6; }
+.contact { margin: 0; display: grid; grid-template-columns: 100px 1fr; gap: 10px 18px; font-size: 15px; }
+.contact dt { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-band-soft); padding-top: 3px; }
+.contact dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.contact a { text-decoration: none; border-bottom: 1px solid var(--on-band-soft); }
+.contact a:hover { border-bottom-color: var(--on-band); }
+.labs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.labs li { display: flex; flex-direction: column; gap: 2px; padding-left: 12px; border-left: 2px solid var(--on-band-soft); }
+.labs li span { font-size: 13px; color: var(--on-band-soft); }
+.labs a { align-self: flex-start; }
+.copy { margin-left: 8px; font: 600 11px var(--sans); letter-spacing: 0.06em; text-transform: uppercase; background: transparent; color: var(--on-band-soft); border: 1px solid var(--on-band-soft); border-radius: 2px; padding: 2px 7px; cursor: pointer; vertical-align: 2px; }
+.copy:hover { color: var(--on-band); border-color: var(--on-band); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; border: 1px solid var(--on-band-soft); color: var(--on-band); }
+.btn.primary { background: var(--on-band); border-color: var(--on-band); color: var(--band-deep); }
+.btn:hover { border-color: var(--on-band); }
+footer { background: var(--band-deep); color: var(--on-band-soft); }
+footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 12.5px; }
+.cleanroom-page footer { margin-top: 56px; }
+
+/* ---------- lightbox ---------- */
+.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(28,31,36,0.86); display: flex; align-items: center; justify-content: center;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lightbox figure { margin: 0; max-width: min(1200px, 100%); max-height: 100%; display: flex; flex-direction: column; gap: 10px; }
+.lightbox img { display: block; max-width: 100%; max-height: calc(100vh - 120px); object-fit: contain; background: #ffffff; border-radius: 3px; padding: 10px; }
+.lightbox figcaption { color: #f2ede7; font-size: 13.5px; line-height: 1.5; }
+.lightbox-close { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); border: 1px solid #9aa2ad; background: #1c1f24; color: #f2ede7; border-radius: 999px; padding: 6px 14px; font: 600 13px var(--sans); cursor: pointer; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  :root { --masthead-h: 112px; }
+  .masthead .wrap { flex-direction: column; align-items: stretch; gap: 0; padding-top: 12px; }
+  .nav { margin-left: -12px; }
+  .nav a { padding: 14px 12px 18px; }
+  .nav a.active::after { bottom: 10px; }
+  .lead { grid-template-columns: 1fr; gap: 28px; padding-top: 32px; }
+  .tabpanel { min-height: 0; }
+  .connect .wrap { grid-template-columns: 1fr; gap: 32px; }
+  .portrait { max-width: 360px; }
+  .skills { grid-template-columns: 1fr; gap: 0; }
+  .courses-body { grid-template-columns: 1fr; padding-left: 0; }
+  .co-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lead-pub { grid-template-columns: 160px 1fr; }
+  .lead-pub .pub-year { grid-column: 2; grid-row: 1; text-align: left; padding: 0; font-size: 13px; }
+  .lead-pub .pub-body { grid-column: 2; }
+  .lead-pub .zoom { grid-row: 1 / span 2; }
+}
+@media (max-width: 640px) {
+  .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  :root { --masthead-h: 104px; }
+  .row { grid-template-columns: 1fr; gap: 8px; }
+  .when .deg { display: inline; font-size: 22px; margin-right: 8px; }
+  .facts li { grid-template-columns: 1fr; gap: 2px; }
+  .plates { grid-template-columns: 1fr; }
+  .course-list.two { columns: 1; }
+  .lead-pub { grid-template-columns: 1fr; gap: 10px; }
+  .lead-pub .zoom, .lead-pub .pub-year, .lead-pub .pub-body { grid-column: auto; grid-row: auto; }
+  .lead-pub .zoom { max-width: 260px; }
+  .conf { grid-template-columns: 1fr auto; gap: 4px 12px; }
+  .conf-body { grid-column: 1 / -1; }
+  .co-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; gap: 2px; }
+  .contact dd { margin-bottom: 10px; }
+}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="#about" aria-label="Hoogwan Lee portfolio, back to top">
+      <img src="assets/engineer.svg" alt="" width="44" height="44">
+      <span>
+        <span class="brand-name">Hoogwan <em>Lee</em></span>
+        <span class="brand-sub">Portfolio</span>
+      </span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#conferences">Conferences</a>
+      <a href="cleanroom.html">Cleanroom</a>
+      <a href="#connect">Connect</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <!-- ABOUT -->
+  <section id="about" class="wrap">
+    <div class="lead">
+      <div>
+        <div class="kicker">Hoogwan Lee · M.S. Researcher</div>
+        <h1>Building science and scalable 3D systems through <em>full-stack engineering</em>.</h1>
+
+        <div class="tabs" role="tablist" aria-label="Overview">
+          <button class="tab" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="true">About me</button>
+          <button class="tab" role="tab" id="tab-edu" aria-controls="panel-edu" aria-selected="false" tabindex="-1">Education</button>
+          <button class="tab" role="tab" id="tab-int" aria-controls="panel-int" aria-selected="false" tabindex="-1">Research Interests</button>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="panel-about" aria-labelledby="tab-about">
+          <p>I am an M.S. student in Semiconductor Engineering at SeoulTech and a researcher at the Electronic Systems Laboratory. My research focuses on plasma-enhanced low-temperature hybrid Cu bonding to advance the scalability of 3D integration. My goal is to bridge the gap between precision micro-fabrication and system-level performance, investigating how advanced packaging innovations drive the architectural integrity and reliability of next-generation hardware.</p>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="panel-edu" aria-labelledby="tab-edu" hidden>
+          <p>I earned my B.S. in Electrical and Information Engineering from SeoulTech, where I designed a 4T SRAM device for my capstone project under Professor Wonbo Shim. I am currently a third-semester Master’s student in Semiconductor Engineering at SeoulTech and a researcher at the Electronic Systems Laboratory. My work focuses on Advanced Packaging under the supervision of Professor Sarah Eunkyung Kim, with an expected graduation in February 2027.</p>
+          <ul class="kv">
+            <li><span>B.S. in Electrical and Information Engineering, 2025</span><span>GPA: 4.24 / 4.5 (Major: 4.40 / 4.5)</span></li>
+            <li><span>M.S. in Semiconductor Engineering, 2027</span><span>GPA: 4.5 / 4.5</span></li>
+            <li><span>University of Nevada, Las Vegas (UNLV), 2023</span><span>Exchange Program (one month)</span></li>
+            <li><span>English Proficiency</span><span>TOEFL score: 5.5/6 (110/120)</span></li>
+          </ul>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="panel-int" aria-labelledby="tab-int" hidden>
+          <p>I am deeply interested in 3D integration processes, specifically focusing on the convergence where advanced packaging increasingly adopts precision front-end fabrication methodologies. I am fascinated by the challenge of bridging the gap between micro-scale manufacturing and robust packaging solutions to enable high-density architectures. Furthermore, I am passionate about exploring the holistic system-level impact, dedicated to studying how process-level innovations dictate the performance, reliability, and architectural integrity of the entire hardware ecosystem.</p>
+          <div class="chips interest-tags"><span class="chip">Advanced Packaging Integration</span><span class="chip">Packaging System-Level Integration</span></div>
+          <a class="link more" href="https://advanced-packaging-study-hg.vercel.app/" target="_blank" rel="noopener"><strong>Hoogwan's Lab Notebook</strong> · an interactive atlas of advanced packaging</a>
+        </div>
+
+        <div class="stats">
+          <div><b>7</b>Journal papers</div>
+          <div><b>15</b>Conference talks</div>
+          <div><b>4.5</b>M.S. GPA (of 4.5)</div>
+        </div>
+      </div>
+      <figure class="fig">
+        <img src="assets/cleanroom.jpg" alt="Hoogwan Lee in a cleanroom suit loading a wafer into an Oxford Instruments PlasmaPro 100 ICP-CVD tool" width="1600" height="914">
+        <figcaption>Loading a wafer into the PlasmaPro 100 ICP-CVD at S-fab, SeoulTech's cleanroom.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="wrap block">
+    <div class="head"><h2>Education</h2><span class="head-note">Seoul National University of Science &amp; Technology</span></div>
+    <div class="rows">
+      <article class="row">
+        <div class="when"><span class="deg">M.S.</span>Expected Feb 2027</div>
+        <div>
+          <h3>Department of Semiconductor Engineering</h3>
+          <p class="where">Seoul National University of Science &amp; Technology, Seoul, Republic of Korea</p>
+          <ul class="facts"><li><span>GPA</span><span>4.5 / 4.5</span></li></ul>
+        </div>
+      </article>
+      <article class="row">
+        <div class="when"><span class="deg">B.S.</span>Mar 2019 – Feb 2025</div>
+        <div>
+          <h3>Department of Electrical &amp; Information Engineering</h3>
+          <p class="where">Seoul National University of Science &amp; Technology, Seoul, Republic of Korea</p>
+          <ul class="facts">
+            <li><span>GPA</span><span>4.24 / 4.5 (Major: 4.4 / 4.5)</span></li>
+            <li><span>Scholarship</span><span>Academic Excellence Scholarship (5 consecutive semesters), 2022 – 2024</span></li>
+          </ul>
+        </div>
+      </article>
+      <article class="row">
+        <div class="when"><span class="deg">Intern</span>June 2023</div>
+        <div>
+          <h3>University of Nevada</h3>
+          <p class="where">Las Vegas, US</p>
+          <ul class="facts"><li><span>Program</span><span>Exchange Student Program (one month)</span></li></ul>
+        </div>
+      </article>
+      <article class="row">
+        <div class="when"><span class="deg">TOEFL</span>iBT</div>
+        <div>
+          <h3>English Proficiency</h3>
+          <ul class="facts"><li><span>Score</span><span>5.5 / 6 (110 / 120)</span></li></ul>
+        </div>
+      </article>
+    </div>
+    <details class="courses">
+      <summary>Relevant Coursework <span class="courses-count">25 courses</span></summary>
+      <div class="courses-body">
+        <div>
+          <h3>M.S. degree <span>6</span></h3>
+          <ul class="course-list">
+              <li>Plasma in Materials Engineering</li>
+              <li>Special Topics on Semiconductor Processing</li>
+              <li>Advanced Microwave Engineering</li>
+              <li>Advanced Semiconductor Packaging</li>
+              <li>Special Topics on Advanced AI Semiconductor</li>
+              <li>Organic Materials for Semiconductor Packaging</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Undergraduate <span>19</span></h3>
+          <ul class="course-list two">
+              <li>Advanced Semiconductor Packaging</li>
+              <li>Semiconductor Fabrication Lab</li>
+              <li>Memory Device</li>
+              <li>Semiconductor Devices</li>
+              <li>Introduction to Materials Science and Engineering</li>
+              <li>Advanced Semiconductor Devices</li>
+              <li>Electronic Circuits 1</li>
+              <li>Analog Front-End Integrated Circuit Design</li>
+              <li>Semiconductor Device Processing</li>
+              <li>Data Based Semiconductor Innovation</li>
+              <li>Introduction to Semiconductor Engineering</li>
+              <li>Digital System Design</li>
+              <li>Computer Architecture</li>
+              <li>Electronic Circuit Analysis 1 &amp; 2</li>
+              <li>Signals and Systems</li>
+              <li>Engineering Electromagnetics 1 &amp; 2</li>
+              <li>Digital Logic Circuit</li>
+              <li>Microwave Integrated Circuits 1</li>
+              <li>Capstone Design 1 &amp; 2</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" class="wrap block">
+    <div class="head"><h2>Research</h2><span class="head-note">Click a figure to enlarge</span></div>
+    <div class="rows">
+      <article class="row">
+        <div class="when"><span class="deg">M.S.</span>Aug 2024 – Feb 2027</div>
+        <div>
+          <h3>M.S. Research</h3>
+          <p class="where">Electronic Systems Laboratory, Seoul National University of Science &amp; Technology</p>
+          <ul class="facts">
+            <li><span>Advisors</span><span>Prof. Sarah Eunkyung Kim, Prof. Seulki Hong</span></li>
+            <li><span>Thesis</span><span class="thesis">Ar/CH₄ Reductive Plasma for Low-Temperature Hybrid Bonding</span></li>
+            <li><span>Key activities</span><span class="chips"><span class="chip">DOE for Surface Optimization</span><span class="chip">a-C:H Kinetics Analysis</span><span class="chip">Post-Bonding Reliability</span></span></li>
+          </ul>
+          <div class="plates">
+            <figure class="plate">
+              <button class="zoom" type="button" data-cap="Design of experiments over CH₄ flow rate, power and pressure: parameter impact, XPS of a non-plasma sample versus DOE case 16, and TEM/EDS line profiles of cases 11 and 16."><img src="assets/fig-ms-doe.jpg" alt="DOE cube, parameter impact map, XPS spectra and TEM images of cases 11 and 16" width="1690" height="1583" loading="lazy"></button>
+              <figcaption>DOE for surface optimization: parameter impact, XPS and TEM/EDS of selected cases.</figcaption>
+            </figure>
+            <figure class="plate">
+              <button class="zoom" type="button" data-cap="HR-TEM with FFT of the a-C:H layer after 15–60 s plasma treatment (P15–P60), with spectra and cross-sectional TEM/FFT of the Cu interface."><img src="assets/fig-ms-tem.jpg" alt="HR-TEM and FFT images for P15 to P60 treatments, spectra, and cross-sectional TEM of the interface" width="1594" height="1644" loading="lazy"></button>
+              <figcaption>a-C:H layer evolution with treatment time (P15–P60), HR-TEM and FFT.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+      <article class="row">
+        <div class="when"><span class="deg">B.S.</span>Feb 2024 – Feb 2025</div>
+        <div>
+          <h3>Capstone Design (Undergraduate Research)</h3>
+          <p class="where">Department of Electrical &amp; Electronic Engineering, Seoul National University of Science &amp; Technology</p>
+          <ul class="facts">
+            <li><span>Advisor</span><span>Prof. Wonbo Shim</span></li>
+            <li><span>Title</span><span class="thesis">Low Power High Integration 4T-SRAM Design</span></li>
+            <li><span>Key activities</span><span class="chips"><span class="chip">MPW</span><span class="chip">Breadboard</span><span class="chip">TCAD</span></span></li>
+          </ul>
+          <div class="plates">
+            <figure class="plate">
+              <button class="zoom" type="button" data-cap="Purpose of MPW, breadboard and TCAD work; 4T versus 6T SRAM schematics with simulated write and read currents; MPW chip floorplan and layout."><img src="assets/fig-capstone-mpw.jpg" alt="Table of MPW, breadboard and TCAD purposes, 4T and 6T SRAM schematics with write and read current plots, and chip floorplan and layout" width="1502" height="1591" loading="lazy"></button>
+              <figcaption>4T vs 6T SRAM: schematics, simulated write/read currents and MPW layout.</figcaption>
+            </figure>
+            <figure class="plate">
+              <button class="zoom" type="button" data-cap="Breadboard comparison of 4T and 6T SRAM: measured current and read-state power, and the discrete NMOS/PMOS transistors used."><img src="assets/fig-capstone-breadboard.jpg" alt="Breadboard circuits for 4T and 6T SRAM, current logs, read-state power calculation, and NMOS and PMOS transistor table" width="1754" height="1637" loading="lazy"></button>
+              <figcaption>Breadboard measurement of 4T and 6T SRAM read-state power.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications" class="wrap block">
+    <div class="head"><h2>Publications</h2><span class="head-note">3 first-author · 4 co-authored</span></div>
+
+    <p class="sub">First-author</p>
+    <ol class="lead-pubs">
+      <li class="lead-pub">
+        <button class="zoom" type="button" data-cap="Reductive CH₄ plasma: dissociation of CH₄, reduction of Cu oxide by hydrogen ions and radicals, by-product formation, and CₓHᵧ passivation on a Cu(111) film."><img src="assets/pub-tcpmt.jpg" alt="Schematic of CH4 plasma reduction and CxHy passivation on a Cu(111) thin film" width="1560" height="785" loading="lazy"></button>
+        <div class="pub-body">
+          <p class="pub-title"><a class="link" href="https://doi.org/10.1109/TCPMT.2026.3665204" target="_blank" rel="noopener">Reductive CH₄ Plasma-Induced Modification of Cu Surfaces for Low-Temperature Hybrid Bonding</a></p>
+          <p class="pub-auth"><b>H. Lee</b>, J. Choi, and S. E. Kim</p>
+          <p class="pub-venue"><i>IEEE Transactions on Components, Packaging and Manufacturing Technology</i>, vol. 16, no. 4, pp. 880–889, April 2026 <span class="pub-doi">doi:10.1109/TCPMT.2026.3665204</span></p>
+        </div>
+        <div class="pub-year">2026</div>
+      </li>
+      <li class="lead-pub">
+        <button class="zoom" type="button" data-cap="Structure of the a-C:H layer on Cu: sp² clusters near the C/Cu interface and an sp³-rich carbon region in the thicker layer."><img src="assets/pub-scirep.jpg" alt="Schematic of thin and thick a-C:H layers on Cu showing sp2 clusters and sp3-rich carbon" width="1800" height="648" loading="lazy"></button>
+        <div class="pub-body">
+          <p class="pub-title"><a class="link" href="https://doi.org/10.1038/s41598-026-49285-6" target="_blank" rel="noopener">Thickness-dependent Structural Evolution of a-C:H Layers Formed by One-step Ar/CH₄ Plasma Reduction for Direct Cu Bonding</a></p>
+          <p class="pub-auth"><b>H. Lee</b> and S. E. Kim</p>
+          <p class="pub-venue"><i>Scientific Reports</i> (2026) <span class="pub-doi">doi:10.1038/s41598-026-49285-6</span></p>
+        </div>
+        <div class="pub-year">2026</div>
+      </li>
+      <li class="lead-pub">
+        <button class="zoom" type="button" data-cap="Daisy-chain test structure for bonded Cu lines, with Kelvin (I/V) pads and line dimensions."><img src="assets/pub-access.jpg" alt="Daisy-chain test structure with top and bottom chip Cu lines and Kelvin pads" width="500" height="317" loading="lazy"></button>
+        <div class="pub-body">
+          <p class="pub-title"><a class="link" href="https://doi.org/10.1109/ACCESS.2026.3727984" target="_blank" rel="noopener">Impact of Ar/CH₄ Plasma Surface Modification on the Electrical Reliability and Mechanical Integrity of Cu Direct Bonding</a></p>
+          <p class="pub-auth"><b>H. Lee</b>, J. Park, S. E. Kim, and S. Hong</p>
+          <p class="pub-venue"><i>IEEE Access</i> <span class="pub-doi">doi:10.1109/ACCESS.2026.3727984</span></p>
+        </div>
+        <div class="pub-year">2026</div>
+      </li>
+    </ol>
+
+    <p class="sub">Co-authored</p>
+    <ul class="co-grid">
+      <li class="co">
+        <div class="co-meta"><span>Mater. Res. Express</span><span>2025</span></div>
+        <p class="co-title"><a class="link" href="https://doi.org/10.1088/2053-1591/addc3c" target="_blank" rel="noopener">C₂H₄ Reductive Plasma Treatment on Copper Surface for Copper Bonding</a></p>
+        <p class="co-auth">D. Lee, <b>H. Lee</b>, J. Choi, S. Jang, and S. E. Kim</p>
+        <p class="co-venue">Materials Research Express, vol. 12, no. 5, 055905</p>
+      </li>
+      <li class="co">
+        <div class="co-meta"><span>IEEE TCPMT</span><span>2026</span></div>
+        <p class="co-title"><a class="link" href="https://doi.org/10.1109/TCPMT.2026.3667463" target="_blank" rel="noopener">Planarization of Cu Polymer Surfaces via Fly Cutting: Influence of Polymer Properties and Processing Parameters</a></p>
+        <p class="co-auth">S. Jang, <b>H. Lee</b>, and S. E. Kim</p>
+        <p class="co-venue">IEEE Trans. CPMT, vol. 16, no. 4, pp. 890–898</p>
+      </li>
+      <li class="co">
+        <div class="co-meta"><span>IEEE TSM</span><span>2026</span></div>
+        <p class="co-title"><a class="link" href="https://doi.org/10.1109/TSM.2026.3680409" target="_blank" rel="noopener">Critical Roles of Copper Surface Planarity in Achieving Reliable Cu/SiO₂ Hybrid Bonding</a></p>
+        <p class="co-auth">K. Seo, S. Kim, J. Choi, S. Jang, <b>H. Lee</b>, and S. E. Kim</p>
+        <p class="co-venue">IEEE Transactions on Semiconductor Manufacturing</p>
+      </li>
+      <li class="co">
+        <div class="co-meta"><span>IEEE TCPMT</span><span>2026</span></div>
+        <p class="co-title"><a class="link" href="https://doi.org/10.1109/TCPMT.2026.3687162" target="_blank" rel="noopener">Electroless-Plated Gold Nanolayer for Low-Temperature Copper Hybrid Bonding</a></p>
+        <p class="co-auth">B. Go, <b>H. Lee</b>, K. Komamura, T. Kishida, and S. E. Kim</p>
+        <p class="co-venue">IEEE Trans. Components, Packaging and Manufacturing Technology</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- CONFERENCES -->
+  <section id="conferences" class="wrap block">
+    <div class="head"><h2>Conferences</h2><span class="head-note">6 first-author · 9 co-authored</span></div>
+
+    <p class="sub">First-author</p>
+    <ul class="confs">
+      <li class="conf"><div class="conf-ev">ECTC <small>2026</small></div><div class="conf-body"><p class="conf-title">Simultaneous Surface Reduction and Self-Passivation via Ar–CH₄ Plasma for Cu Hybrid Bonding</p><p class="conf-auth"><b>H. Lee</b>, B. Go, S. E. Kim</p></div><span class="type">Poster</span></li>
+      <li class="conf"><div class="conf-ev">ICEP-HBS <small>2026</small></div><div class="conf-body"><p class="conf-title">Surface Reduction and Self-Passivation in a Single-Step Ar/CH₄ Plasma Treatment for Hybrid Cu Bonding</p><p class="conf-auth"><b>H. Lee</b>, B. Go, J. Park, S. E. Kim</p></div><span class="type oral">Oral</span></li>
+      <li class="conf"><div class="conf-ev">ICOS <small>2026</small></div><div class="conf-body"><p class="conf-title">Simultaneous Surface Reduction and Self-Passivation via Ar–CH₄ Plasma for Low-Temperature Cu Bonding</p><p class="conf-auth"><b>H. Lee</b>, B. Go, S. E. Kim</p></div><span class="type oral">Oral</span></li>
+      <li class="conf"><div class="conf-ev">ISMP <small>2025</small></div><div class="conf-body"><p class="conf-title">Advanced Cu Surface Modification Using Ar–CH₄ Plasma Pretreatment for Direct Bonding Applications</p><p class="conf-auth"><b>H. Lee</b>, B. Go, S. E. Kim</p></div><span class="type">Poster</span></li>
+      <li class="conf"><div class="conf-ev">ICEPT <small>2025</small></div><div class="conf-body"><p class="conf-title">Effect of CH₄ Plasma Pretreatment on Cu-to-Cu Bonding Applications</p><p class="conf-auth"><b>H. Lee</b>, D. Lee, S. Jang, J. Choi, S. E. Kim</p></div><span class="type">Poster</span></li>
+      <li class="conf"><div class="conf-ev">ICEP-IAAC <small>2025</small></div><div class="conf-body"><p class="conf-title">Study of Low-Temperature Cu-to-Cu Bonding Using Reducing Plasma</p><p class="conf-auth"><b>H. Lee</b>, D. Lee, J. Choi, S. Jang, S. E. Kim</p></div><span class="type">Poster</span></li>
+    </ul>
+
+    <p class="sub">Co-authored</p>
+    <ul class="co-grid">
+      <li class="co"><div class="co-meta"><span>ECTC 2026</span><span class="type">Poster</span></div><p class="co-title">Electroless Noble Metal Passivation Enabling Oxidation-Free Cu Bonding Through a Comparative Study of Au, Pd, and Ru for Low-Temperature Hybrid Bonding Applications</p><p class="co-auth">B. Go, <b>H. Lee</b>, K. Komamura, T. Kishida, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEP-HBS 2026</span><span class="type">Poster</span></div><p class="co-title">Analysis of Au and Ru Passivation Layers Deposited via Electroless Plating for Low-Temperature Cu–Cu Bonding</p><p class="co-auth">B. Go, <b>H. Lee</b>, K. Komamura, T. Kishida, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEPT 2025</span><span class="type oral">Oral</span></div><p class="co-title">Evaluation of Fly Cutting for Planarization in Cu/Polymer Hybrid Bonding and Its Effects on Polymer Materials and Processing Conditions</p><p class="co-auth">S. Jang, J. Choi, D. Lee, <b>H. Lee</b>, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEPT 2025</span><span class="type oral">Oral</span></div><p class="co-title">Study on the Deposition and Low-Temperature Bonding of PVD SiCN Thin Film</p><p class="co-auth">J. Choi, S. Jang, D. Lee, <b>H. Lee</b>, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEPT 2025</span><span class="type">Poster</span></div><p class="co-title">Study on Cu Dishing in CMP Process and Its Impact on Hybrid Bonding by Pad Size</p><p class="co-auth">S. Kim, K. Seo, J. Choi, S. Jang, D. Lee, <b>H. Lee</b>, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEPT 2025</span><span class="type oral">Oral</span></div><p class="co-title">Effect of Palladium Passivation via Electroplating and Electroless Plating on Low-Temperature Cu-to-Cu Bonding</p><p class="co-auth">D. Lee, J. Choi, S. Jang, <b>H. Lee</b>, K. Komamura, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEP-IAAC 2025</span><span class="type">Poster</span></div><p class="co-title">Effect of Noble Metal Passivation Deposited by ECD on Cu Surface for Low-Temperature Cu-to-Cu Bonding</p><p class="co-auth">D. Lee, J. Choi, S. Jang, <b>H. Lee</b>, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEP-IAAC 2025</span><span class="type">Poster</span></div><p class="co-title">Exploring the Potential of Fly Cutting for Polymer Planarization in Cu/PDMS Hybrid Bonding</p><p class="co-auth">S. Jang, J. Choi, D. Lee, <b>H. Lee</b>, S. E. Kim</p></li>
+      <li class="co"><div class="co-meta"><span>ICEP-IAAC 2025</span><span class="type">Poster</span></div><p class="co-title">Optimization of PVD SiCN Deposition for Cu/SiCN Hybrid Bonding Applications</p><p class="co-auth">J. Choi, S. Jang, D. Lee, <b>H. Lee</b>, S. E. Kim</p></li>
+    </ul>
+  </section>
+
+  <!-- CONNECT -->
+  <section id="connect" class="connect">
+    <div class="wrap">
+      <figure class="portrait">
+        <img src="assets/portrait.jpg" alt="Hoogwan Lee" width="1100" height="825" loading="lazy">
+      </figure>
+      <div>
+        <div class="kicker">Connect with H. Lee</div>
+        <h2>Hoogwan Lee</h2>
+        <p class="affil">Dept. of Semiconductor Engineering<br>Seoul National University of Science &amp; Technology<br>Electronic Systems Laboratory</p>
+        <dl class="contact">
+          <dt>Advisors</dt><dd>Prof. Sarah Eunkyung Kim &amp; Prof. Seulki Hong</dd>
+          <dt>Email</dt><dd><a href="mailto:leehoogwan@naver.com" id="email">leehoogwan@naver.com</a><button class="copy" type="button" id="copy-email" data-copy="leehoogwan@naver.com">Copy</button></dd>
+          <dt>Phone</dt><dd><a href="tel:+821076281377">+82 10-7628-1377</a></dd>
+          <dt>Address</dt><dd>232, Gongneung-ro, Nowon-gu, Seoul, Republic of Korea</dd>
+          <dt>Labs</dt><dd><ul class="labs">
+            <li><a href="https://esl.seoultech.ac.kr/index.do" target="_blank" rel="noopener">Electronic Systems Laboratory</a><span>Prof. Sarah Eunkyung Kim</span></li>
+            <li><a href="https://ndi.seoultech.ac.kr/index.do" target="_blank" rel="noopener">Nano Device Integration Engineering Laboratory</a><span>Prof. Seulki Hong</span></li>
+          </ul></dd>
+        </dl>
+        <div class="actions">
+          <a class="btn primary" href="assets/CV-Hoogwan-Lee.pdf" target="_blank" rel="noopener">Download CV (PDF)</a>
+          <a class="btn" href="https://advanced-packaging-study-hg.vercel.app/" target="_blank" rel="noopener">Lab Notebook →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Hoogwan Lee</span>
+  </div>
+</footer>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Enlarged figure">
+  <button class="lightbox-close" type="button" id="lightbox-close">Close</button>
+  <figure><img id="lightbox-img" alt=""><figcaption id="lightbox-cap"></figcaption></figure>
+</div>
+<script>
+(function () {
+  // Scroll-spy for in-page sections
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  function setActive(id) {
+    links.forEach(function (a) {
+      var on = a.getAttribute('href') === '#' + id;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+  }
+  function update() {
+    var mh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--masthead-h'), 10) || 72;
+    var y = mh + 40, current = sections[0].id;
+    sections.forEach(function (s) { if (s.getBoundingClientRect().top - y <= 0) current = s.id; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = sections[sections.length - 1].id;
+    setActive(current);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+
+  // Tabs: About me / Education / Research Interests
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t); });
+    t.addEventListener('keydown', function (e) {
+      var n = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!n) return;
+      var next = tabs[(i + n + tabs.length) % tabs.length]; select(next); next.focus();
+    });
+  });
+
+  // Lightbox for figures
+  var box = document.getElementById('lightbox'), img = document.getElementById('lightbox-img'), cap = document.getElementById('lightbox-cap'), lastBtn = null;
+  function close() { box.hidden = true; img.removeAttribute('src'); if (lastBtn) lastBtn.focus(); }
+  Array.prototype.forEach.call(document.querySelectorAll('.zoom'), function (btn) {
+    btn.addEventListener('click', function () {
+      var src = btn.querySelector('img');
+      img.src = src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
+      lastBtn = btn; box.hidden = false; document.getElementById('lightbox-close').focus();
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) close(); });
+
+  // Copy email
+  var btn = document.getElementById('copy-email');
+  btn.addEventListener('click', function () {
+    var text = btn.getAttribute('data-copy');
+    function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); }
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById('email'));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>

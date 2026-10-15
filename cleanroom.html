@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cleanroom Operations · Hoogwan Lee</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Researcher-engineer bridging advanced process innovation with system-level architecture for next-generation 3D integration">
+<link rel="icon" type="image/svg+xml" href="assets/engineer.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..800;1,7..72,400..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: science-journal front page (as Hoogwan's Lab Notebook) — white page, ink type, heavy rules in one deep-blue signal colour */
+:root {
+  --ink: #16191d;
+  --slate: #232a33;
+  --mist: #c8c5bc;
+  --bg: #ffffff;
+  --plate: #ffffff;
+  --panel: #f4f3ef;
+  --line: #e2e0da;
+  --line-strong: #c8c5bc;
+  --ink-mid: #444a51;
+  --ink-soft: #7d838a;
+  --rule: #173a6e;
+  --signal: #1d4b8f;
+  --band: #232a33;
+  --band-deep: #16191d;
+  --on-band: #ffffff;
+  --on-band-soft: #c3cad2;
+  --serif: 'Literata', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, 'Apple SD Gothic Neo', sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  --masthead-h: 72px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418; --plate: #ffffff; --panel: #1b1e23; --line: #2b2f36; --line-strong: #3d424a; --mist: #4b5361;
+    --ink: #eceae5; --ink-mid: #b9bcc1; --ink-soft: #868b92; --rule: #4f7cc4; --signal: #8fb2ea;
+    --band: #1e242c; --band-deep: #0f1114; --on-band: #f4f4f2; --on-band-soft: #aab2bb;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121418; --plate: #ffffff; --panel: #1b1e23; --line: #2b2f36; --line-strong: #3d424a; --mist: #4b5361;
+  --ink: #eceae5; --ink-mid: #b9bcc1; --ink-soft: #868b92; --rule: #4f7cc4; --signal: #8fb2ea;
+  --band: #1e242c; --band-deep: #0f1114; --on-band: #f4f4f2; --on-band-soft: #aab2bb;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- masthead ---------- */
+.masthead { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); box-shadow: inset 0 -4px 0 var(--rule); }
+.masthead .wrap { display: flex; align-items: center; gap: 28px; min-height: var(--masthead-h); }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+.brand img { width: 44px; height: 44px; display: block; }
+.brand-name { display: block; font-family: var(--serif); font-size: 24px; font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; font-variation-settings: "opsz" 60; }
+.brand-name em { font-style: italic; font-weight: 500; color: var(--signal); }
+.brand-sub { display: block; margin-top: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.nav { margin-left: auto; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a { position: relative; padding: 24px 12px; font-size: 14px; font-weight: 600; color: var(--ink-soft); text-decoration: none; white-space: nowrap; transition: color .15s; }
+.nav a:hover, .nav a.active { color: var(--ink); }
+.nav a.active::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 18px; height: 2px; background: var(--signal); }
+.nav a.page::after { content: " ↗"; font-weight: 500; color: var(--ink-soft); position: static; background: none; }
+
+/* ---------- shared scaffolding ---------- */
+section { scroll-margin-top: calc(var(--masthead-h) + 12px); }
+.block { padding-block: 30px 20px; }
+.head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; border-bottom: 3px solid var(--rule); padding-bottom: 12px; margin-bottom: 4px; }
+.head h2 { margin: 0; font-family: var(--serif); font-size: 28px; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
+.head-note { margin-left: auto; font-size: 13px; color: var(--ink-soft); }
+.kicker { font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); }
+.sub { margin: 28px 0 0; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.link { text-decoration: none; background-image: linear-gradient(var(--signal), var(--signal)); background-size: 0 1.5px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .25s; }
+.link:hover { background-size: 100% 1.5px; }
+.more::after { content: " →"; color: var(--signal); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 11px; font-size: 12.5px; color: var(--ink-mid); background: transparent; white-space: nowrap; }
+
+/* ---------- lead / tabs ---------- */
+.lead { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding-block: 44px 36px; }
+.lead > * { min-width: 0; }
+.lead h1 { margin: 14px 0 22px; font-family: var(--serif); font-size: clamp(30px, 3.5vw, 44px); font-weight: 700; line-height: 1.12; letter-spacing: -0.03em; font-variation-settings: "opsz" 72; text-wrap: balance; }
+.lead h1 em { font-style: italic; font-weight: 500; color: var(--signal); }
+.tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; scrollbar-width: none; }
+.tab { position: relative; border: 0; background: none; padding: 0 0 10px; font: 600 14px var(--sans); color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); }
+.tab[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--signal); }
+.tabpanel { min-height: 250px; }
+.tabpanel p { margin: 0 0 16px; font-size: 15.5px; line-height: 1.72; color: var(--ink-mid); max-width: 560px; }
+.kv { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; max-width: 560px; }
+.kv li { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2px 16px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.kv li span:last-child { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.interest-tags { margin: 4px 0 18px; }
+.stats { display: flex; flex-wrap: wrap; row-gap: 14px; margin-top: 24px; }
+.stats div { display: flex; flex-direction: column; padding-right: 18px; margin-right: 18px; border-right: 1px solid var(--line); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.stats div:last-child { border-right: none; }
+.stats b { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; text-transform: none; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.fig { margin: 0; }
+.fig img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 3px; max-width: 100%; }
+.fig figcaption { margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
+.fig figcaption b { font-family: var(--serif); color: var(--ink); margin-right: 4px; }
+
+/* ---------- coursework (expandable) ---------- */
+.courses { border-bottom: 1px solid var(--line); }
+.courses summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 12px; padding: 18px 0; font-family: var(--serif); font-size: 20px; font-weight: 700; letter-spacing: -0.015em; }
+.courses summary::-webkit-details-marker { display: none; }
+.courses summary::before { content: "+"; width: 18px; font-family: var(--sans); font-weight: 500; color: var(--signal); }
+.courses[open] summary::before { content: "−"; }
+.courses summary:hover { color: var(--signal); }
+.courses-count { font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--ink-soft); letter-spacing: 0; }
+.courses-body { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; padding: 0 0 24px 30px; }
+.courses-body > * { min-width: 0; }
+.courses-body h3 { margin: 0 0 8px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); }
+.courses-body h3 span { color: var(--ink-soft); margin-left: 4px; }
+.course-list { margin: 0; padding: 0; list-style: none; }
+.course-list.two { columns: 2; column-gap: 28px; }
+.course-list li { break-inside: avoid; padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-mid); }
+
+/* ---------- rows ---------- */
+.rows { display: flex; flex-direction: column; }
+.row { display: grid; grid-template-columns: 170px 1fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.row > * { min-width: 0; }
+.when { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; padding-top: 4px; }
+.when .deg { display: block; font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.1; margin-bottom: 4px; }
+.row h3 { margin: 0 0 4px; font-family: var(--serif); font-size: 20px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.3; }
+.row .where { margin: 0 0 10px; color: var(--ink-mid); font-size: 14.5px; }
+.facts { margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-size: 14.5px; max-width: 760px; border-bottom: 1px solid var(--line); }
+.facts li { display: grid; grid-template-columns: 128px 1fr; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.facts li > span { min-width: 0; }
+.facts li > span:first-child { color: var(--ink-soft); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.thesis { font-family: var(--serif); font-style: italic; font-size: 16px; }
+
+/* figures inside research rows */
+.plates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.plate { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.zoom { display: block; width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--plate); cursor: zoom-in; transition: border-color .15s; }
+.zoom:hover { border-color: var(--mist); }
+.zoom img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; max-width: 100%; }
+.plate figcaption { font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
+.plate figcaption b { font-family: var(--serif); color: var(--ink); margin-right: 4px; }
+
+/* ---------- publications: first-author ---------- */
+.lead-pubs { list-style: none; margin: 0; padding: 0; }
+.lead-pub { display: grid; grid-template-columns: 200px 1fr 60px; gap: 24px; align-items: start; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.lead-pub > * { min-width: 0; }
+.lead-pub .zoom { padding: 6px; }
+.lead-pub .zoom img { aspect-ratio: 16 / 10; }
+.pub-title { margin: 0 0 6px; font-family: var(--serif); font-size: 18px; font-weight: 600; line-height: 1.38; letter-spacing: -0.01em; }
+.pub-title a { text-decoration: none; }
+.pub-auth { margin: 0 0 3px; font-size: 13.5px; color: var(--ink-mid); }
+.pub-auth b { color: var(--ink); font-weight: 700; }
+.pub-venue { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+.pub-venue i { color: var(--ink-mid); }
+.pub-doi { display: block; margin-top: 3px; font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
+.pub-year { text-align: right; font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--ink-mid); padding-top: 2px; }
+
+/* ---------- conferences: first-author ---------- */
+.confs { list-style: none; margin: 0; padding: 0; }
+.conf { display: grid; grid-template-columns: 150px 1fr 72px; gap: 18px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.conf > * { min-width: 0; }
+.conf-ev { font-family: var(--serif); font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+.conf-ev small { display: block; font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink-soft); }
+.conf-title { margin: 0 0 3px; font-size: 15px; font-weight: 500; line-height: 1.45; }
+.conf-auth { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.conf-auth b { color: var(--ink-mid); }
+.type { justify-self: end; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--line-strong); color: var(--ink-soft); padding: 2px 8px; border-radius: 2px; }
+.type.oral { border-color: var(--signal); color: var(--signal); }
+
+/* ---------- co-authored: compact three-column cards ---------- */
+.co-grid { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.co { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--panel); border-radius: 3px; min-width: 0; }
+.co-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.co-title { margin: 0; font-family: var(--serif); font-size: 14.5px; font-weight: 600; line-height: 1.4; }
+.co-title a { text-decoration: none; }
+.co-auth { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
+.co-auth b { color: var(--ink-mid); }
+.co-venue { margin: auto 0 0; font-size: 12px; color: var(--ink-mid); font-style: italic; }
+.co .type { justify-self: auto; font-size: 10px; padding: 1px 6px; }
+
+/* ---------- lab notebook card ---------- */
+.note-card { margin-top: 22px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--panel); padding: 18px 20px; border-radius: 3px; }
+.note-card img { width: 40px; height: 40px; }
+.note-card > div { flex: 1; min-width: 200px; }
+.note-card strong { display: block; font-family: var(--serif); font-size: 17px; }
+.note-card span { font-size: 13.5px; color: var(--ink-mid); }
+.note-card a { font-weight: 600; font-size: 14px; text-decoration: none; }
+
+/* ---------- cleanroom page ---------- */
+.page-head { padding-block: 44px 8px; }
+.page-head h1 { margin: 12px 0 10px; font-family: var(--serif); font-size: clamp(32px, 4vw, 46px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.page-head p { margin: 0; max-width: 620px; font-size: 16px; color: var(--ink-mid); }
+.video { margin-top: 26px; position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; background: var(--band-deep); border-radius: 3px; overflow: hidden; }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.back { font-size: 13.5px; font-weight: 600; text-decoration: none; color: var(--ink-soft); }
+.back:hover { color: var(--ink); }
+.tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0 28px; margin-top: 6px; }
+.tool { padding: 12px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 1px; }
+.tool b { font-weight: 600; font-size: 14.5px; }
+.tool span { font-size: 12.5px; color: var(--ink-soft); font-family: var(--mono); }
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.skills h3 { margin: 22px 0 10px; font-family: var(--serif); font-size: 18px; }
+
+/* ---------- blog cards & posts ---------- */
+.blog-lede { margin: 14px 0 0; max-width: 620px; font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-mid); }
+.blog-grid { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.post-card { display: flex; flex-direction: column; gap: 14px; height: 100%; padding: 14px 14px 18px; background: var(--panel); border-radius: 4px; text-decoration: none; transition: background .2s; }
+.post-card:hover { background: var(--line); }
+.post-card img { display: block; width: 100%; height: auto; aspect-ratio: 347 / 242; object-fit: cover; border-radius: 3px; max-width: 100%; background: var(--plate); }
+.post-title { font-family: var(--serif); font-size: 17px; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; }
+.post-go { margin-top: auto; align-self: center; width: 28px; height: 28px; border-radius: 50%; background: var(--signal); color: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 15px; transition: transform .2s; }
+.post-card:hover .post-go { transform: translateX(3px); }
+.post-hero { margin: 26px 0 0; max-width: 760px; }
+.post-hero img { display: block; width: 100%; height: auto; border-radius: 3px; max-width: 100%; }
+.post-body { max-width: 720px; padding-block: 24px 8px; font-size: 16px; line-height: 1.75; color: var(--ink-mid); }
+.post-pending { padding: 16px 18px; border-left: 2px solid var(--line-strong); color: var(--ink-soft); font-style: italic; }
+
+/* ---------- connect ---------- */
+.connect { margin-top: 44px; background: var(--band); color: var(--on-band); }
+.connect .wrap { padding-block: 56px; display: grid; grid-template-columns: 360px 1fr; gap: 52px; align-items: center; }
+.connect .wrap > * { min-width: 0; }
+.connect .kicker { color: var(--on-band-soft); }
+.portrait { margin: 0; }
+.portrait img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 47% 60%; border-radius: 3px; max-width: 100%; }
+.connect h2 { margin: 12px 0 6px; font-family: var(--serif); font-size: clamp(30px, 3.4vw, 42px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+.affil { margin: 0 0 26px; color: var(--on-band-soft); font-size: 15px; line-height: 1.6; }
+.contact { margin: 0; display: grid; grid-template-columns: 100px 1fr; gap: 10px 18px; font-size: 15px; }
+.contact dt { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-band-soft); padding-top: 3px; }
+.contact dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.contact a { text-decoration: none; border-bottom: 1px solid var(--on-band-soft); }
+.contact a:hover { border-bottom-color: var(--on-band); }
+.labs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.labs li { display: flex; flex-direction: column; gap: 2px; padding-left: 12px; border-left: 2px solid var(--on-band-soft); }
+.labs li span { font-size: 13px; color: var(--on-band-soft); }
+.labs a { align-self: flex-start; }
+.copy { margin-left: 8px; font: 600 11px var(--sans); letter-spacing: 0.06em; text-transform: uppercase; background: transparent; color: var(--on-band-soft); border: 1px solid var(--on-band-soft); border-radius: 2px; padding: 2px 7px; cursor: pointer; vertical-align: 2px; }
+.copy:hover { color: var(--on-band); border-color: var(--on-band); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; border: 1px solid var(--on-band-soft); color: var(--on-band); }
+.btn.primary { background: var(--on-band); border-color: var(--on-band); color: var(--band-deep); }
+.btn:hover { border-color: var(--on-band); }
+footer { background: var(--band-deep); color: var(--on-band-soft); }
+footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 12.5px; }
+.cleanroom-page footer { margin-top: 56px; }
+
+/* ---------- lightbox ---------- */
+.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(28,31,36,0.86); display: flex; align-items: center; justify-content: center;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lightbox figure { margin: 0; max-width: min(1200px, 100%); max-height: 100%; display: flex; flex-direction: column; gap: 10px; }
+.lightbox img { display: block; max-width: 100%; max-height: calc(100vh - 120px); object-fit: contain; background: #ffffff; border-radius: 3px; padding: 10px; }
+.lightbox figcaption { color: #f2ede7; font-size: 13.5px; line-height: 1.5; }
+.lightbox-close { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); border: 1px solid #9aa2ad; background: #1c1f24; color: #f2ede7; border-radius: 999px; padding: 6px 14px; font: 600 13px var(--sans); cursor: pointer; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  :root { --masthead-h: 112px; }
+  .masthead .wrap { flex-direction: column; align-items: stretch; gap: 0; padding-top: 12px; }
+  .nav { margin-left: -12px; }
+  .nav a { padding: 14px 12px 18px; }
+  .nav a.active::after { bottom: 10px; }
+  .lead { grid-template-columns: 1fr; gap: 28px; padding-top: 32px; }
+  .tabpanel { min-height: 0; }
+  .connect .wrap { grid-template-columns: 1fr; gap: 32px; }
+  .portrait { max-width: 360px; }
+  .skills { grid-template-columns: 1fr; gap: 0; }
+  .courses-body { grid-template-columns: 1fr; padding-left: 0; }
+  .co-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lead-pub { grid-template-columns: 160px 1fr; }
+  .lead-pub .pub-year { grid-column: 2; grid-row: 1; text-align: left; padding: 0; font-size: 13px; }
+  .lead-pub .pub-body { grid-column: 2; }
+  .lead-pub .zoom { grid-row: 1 / span 2; }
+}
+@media (max-width: 640px) {
+  .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  :root { --masthead-h: 104px; }
+  .row { grid-template-columns: 1fr; gap: 8px; }
+  .when .deg { display: inline; font-size: 22px; margin-right: 8px; }
+  .facts li { grid-template-columns: 1fr; gap: 2px; }
+  .plates { grid-template-columns: 1fr; }
+  .course-list.two { columns: 1; }
+  .lead-pub { grid-template-columns: 1fr; gap: 10px; }
+  .lead-pub .zoom, .lead-pub .pub-year, .lead-pub .pub-body { grid-column: auto; grid-row: auto; }
+  .lead-pub .zoom { max-width: 260px; }
+  .conf { grid-template-columns: 1fr auto; gap: 4px 12px; }
+  .conf-body { grid-column: 1 / -1; }
+  .co-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; gap: 2px; }
+  .contact dd { margin-bottom: 10px; }
+}
+</style>
+</head>
+<body class="cleanroom-page">
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="./#about" aria-label="Hoogwan Lee portfolio, back to top">
+      <img src="assets/engineer.svg" alt="" width="44" height="44">
+      <span>
+        <span class="brand-name">Hoogwan <em>Lee</em></span>
+        <span class="brand-sub">Portfolio</span>
+      </span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Sections">
+      <a href="./#about">About</a>
+      <a href="./#education">Education</a>
+      <a href="./#research">Research</a>
+      <a href="./#publications">Publications</a>
+      <a href="./#conferences">Conferences</a>
+      <a href="cleanroom.html" class="active" aria-current="page">Cleanroom</a>
+      <a href="./#connect">Connect</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="wrap page-head">
+    <a class="back" href="./#about">← Back to portfolio</a>
+    <h1>Cleanroom Operations</h1>
+    <p>Equipment management, user training and hands-on fabrication at S-fab, SeoulTech's cleanroom.</p>
+    <div class="video">
+      <iframe src="https://drive.google.com/file/d/1gkF4jgKtHYhdLI3StWO4YZjuq8ZCK8N1/preview" title="Cleanroom operations video" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <section class="wrap block">
+    <div class="head"><h2>Equipment Management</h2><span class="head-note">S-fab, SeoulTech</span></div>
+    <div class="rows">
+      <article class="row">
+        <div class="when"><span class="deg">S-fab</span></div>
+        <div>
+          <h3>Primary Engineer in Charge of S-fab Equipment</h3>
+          <p class="where">Maintained and operated four cleanroom tools as the primary engineer in charge, and trained their users.</p>
+          <ul class="facts">
+            <li><span>Equipment</span><span class="chips"><span class="chip">ICP CVD (Oxford, PlasmaPro 100)</span><span class="chip">Aligner (EVG 610)</span><span class="chip">Wafer Bonder (EVG 501)</span><span class="chip">Shear Tester (MFM 1200 DGFT)</span></span></li>
+            <li><span>Work</span><span class="chips"><span class="chip">System Maintenance</span><span class="chip">Equipment Troubleshooting</span><span class="chip">SOP Standardization</span><span class="chip">Facility Installation</span><span class="chip">User Training</span></span></li>
+            <li><span>Training</span><span>S-fab Process Training Assistant (TA)</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap block">
+    <div class="head"><h2>Fabrication</h2><span class="head-note">Self-user certified</span></div>
+    <div class="tools">
+      <div class="tool"><b>Sputter</b><span>SRN-100</span></div>
+      <div class="tool"><b>ICP CVD</b><span>PlasmaPro 100</span></div>
+      <div class="tool"><b>Aligner</b><span>EVG 610</span></div>
+      <div class="tool"><b>Vacuum Oven</b><span>—</span></div>
+      <div class="tool"><b>RIE etcher</b><span>PlasmaPro 80 Cobra65</span></div>
+      <div class="tool"><b>Ion Milling</b><span>IM4000plus CTC</span></div>
+      <div class="tool"><b>Mechanical Dicing</b><span>DISCO DAD3350</span></div>
+      <div class="tool"><b>Stealth Dicing</b><span>DISCO DFL7341 SD</span></div>
+      <div class="tool"><b>Die Bonder</b><span>SET</span></div>
+      <div class="tool"><b>Wafer Bonder</b><span>EVG 501</span></div>
+      <div class="tool"><b>Probe Station</b><span>—</span></div>
+      <div class="tool"><b>3D Profiler</b><span>Dektak 150</span></div>
+      <div class="tool"><b>Thin-film Thickness</b><span>Nanospec-3000</span></div>
+      <div class="tool"><b>Hall Effect Measurement</b><span>HMS-3000</span></div>
+      <div class="tool"><b>Shear Test</b><span>MFM 1200 DGFT</span></div>
+      <div class="tool"><b>SAM</b><span>Hitachi fineSAT</span></div>
+    </div>
+  </section>
+
+  <section class="wrap block" id="blog">
+    <div class="head"><h2>Engineering Projects &amp; Insight</h2><span class="head-note">Blog</span></div>
+    <p class="blog-lede">"A record of collaborative projects and team-based research conducted during my Master's studies."</p>
+    <ul class="blog-grid">
+      <li><a class="post-card" href="blog-1.html"><img src="assets/blog-1.jpg" alt="Process flow from lithography to electroplating on SiO2 over Si" width="347" height="242" loading="lazy"><span class="post-title">[1] Micro-Patterning for Cu Interconnects</span><span class="post-go" aria-hidden="true">→</span></a></li>
+      <li><a class="post-card" href="blog-2.html"><img src="assets/blog-2.jpg" alt="Open process chamber of a deposition tool" width="347" height="242" loading="lazy"><span class="post-title">[2] Fab Infrastructure &amp; ICP-CVD Implementation</span><span class="post-go" aria-hidden="true">→</span></a></li>
+      <li><a class="post-card" href="blog-3.html"><img src="assets/blog-3.jpg" alt="EVG 501 wafer bonder in the yellow-light cleanroom" width="347" height="242" loading="lazy"><span class="post-title">[3] S-fab Operations: Equipment Maintenance &amp; User Training</span><span class="post-go" aria-hidden="true">→</span></a></li>
+    </ul>
+  </section>
+</main>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Hoogwan Lee</span>
+  </div>
+</footer>
+</body>
+</html>
