@@ -164,19 +164,39 @@ POSTS = [
     (2, "[2] Fab Infrastructure &amp; ICP-CVD Implementation", "Open process chamber of a deposition tool"),
     (3, "[3] S-fab Operations: Equipment Maintenance &amp; User Training", "EVG 501 wafer bonder in the yellow-light cleanroom"),
 ]
+POST_JS = '''<script>
+(function () {
+  var box = document.getElementById('lightbox'), img = document.getElementById('lightbox-img'), cap = document.getElementById('lightbox-cap'), last = null;
+  function close() { box.hidden = true; img.removeAttribute('src'); if (last) last.focus(); }
+  Array.prototype.forEach.call(document.querySelectorAll('.zoom'), function (btn) {
+    btn.addEventListener('click', function () {
+      var src = btn.querySelector('img');
+      img.src = src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
+      last = btn; box.hidden = false; document.getElementById('lightbox-close').focus();
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) close(); });
+})();
+</script>
+'''
 for n, title, alt in POSTS:
+    src = SRC / f"blog-{n}.html"
+    if src.exists():
+        inner = '<div class="post-body">\n' + src.read_text() + '    </div>'
+    else:
+        inner = (f'<figure class="post-hero"><img src="assets/blog-{n}.jpg" alt="{alt}"></figure>\n'
+                 '    <div class="post-body">\n      <p class="post-pending">Write-up coming soon.</p>\n    </div>')
     body = (masthead("./", "cleanroom") +
         f'''<main>
   <article class="wrap page-head">
     <a class="back" href="cleanroom.html#blog">← Engineering Projects &amp; Insight</a>
     <div class="kicker" style="margin-top:18px">Blog · Engineering Projects</div>
     <h1>{title}</h1>
-    <figure class="post-hero"><img src="assets/blog-{n}.jpg" alt="{alt}"></figure>
-    <div class="post-body">
-      <p class="post-pending">Write-up coming soon.</p>
-    </div>
+    {inner}
   </article>
 </main>
-''' + FOOTER)
+''' + FOOTER + (LIGHTBOX + POST_JS if src.exists() else ""))
     (ROOT / f"blog-{n}.html").write_text(full(head(title.replace("&amp;", "&") + " · Hoogwan Lee"), body, "cleanroom-page"))
 print("posts built")
