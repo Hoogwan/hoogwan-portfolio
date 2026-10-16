@@ -141,11 +141,15 @@ MAIN_JS = '''<script>
 </script>
 '''
 
+ANALYTICS = ('<!-- Vercel Web Analytics (cookieless; stats visible only in the owner\'s Vercel dashboard) -->\n'
+             '<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>\n'
+             '<script defer src="/_vercel/insights/script.js"></script>\n')
+
 def full(head_html, body_html, body_class=""):
     cls = f' class="{body_class}"' if body_class else ''
     return ('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">\n'
-            + head_html + f'</head>\n<body{cls}>\n' + body_html + '</body>\n</html>\n')
+            + head_html + f'</head>\n<body{cls}>\n' + body_html + ANALYTICS + '</body>\n</html>\n')
 
 main_body = masthead("") + (SRC / "main.html").read_text() + FOOTER + LIGHTBOX + MAIN_JS
 clean_body = masthead("./", "cleanroom") + (SRC / "cleanroom.html").read_text() + FOOTER
