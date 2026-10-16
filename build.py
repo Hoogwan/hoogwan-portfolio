@@ -188,6 +188,12 @@ for n, title, alt in POSTS:
     else:
         inner = (f'<figure class="post-hero"><img src="assets/blog-{n}.jpg" alt="{alt}"></figure>\n'
                  '    <div class="post-body">\n      <p class="post-pending">Write-up coming soon.</p>\n    </div>')
+    others = "".join(
+        f'      <li><a class="post-card" href="blog-{m}.html"><img src="assets/blog-{m}.jpg" alt="{a}" loading="lazy">'
+        f'<span class="post-title">{t}</span><span class="post-go" aria-hidden="true">→</span></a></li>\n'
+        for m, t, a in POSTS if m != n)
+    inner += ('\n    <nav class="more-posts" aria-label="Other projects">\n      <h2>More Engineering Projects</h2>\n'
+              '      <ul class="blog-grid">\n' + others + '      </ul>\n    </nav>')
     body = (masthead("./", "cleanroom") +
         f'''<main>
   <article class="wrap page-head">
