@@ -118,7 +118,7 @@ MAIN_JS = '''<script>
   Array.prototype.forEach.call(document.querySelectorAll('.zoom'), function (btn) {
     btn.addEventListener('click', function () {
       var src = btn.querySelector('img');
-      img.src = src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
+      img.src = btn.getAttribute('data-full') || src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
       lastBtn = btn; box.hidden = false; document.getElementById('lightbox-close').focus();
     });
   });
@@ -171,7 +171,7 @@ POST_JS = '''<script>
   Array.prototype.forEach.call(document.querySelectorAll('.zoom'), function (btn) {
     btn.addEventListener('click', function () {
       var src = btn.querySelector('img');
-      img.src = src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
+      img.src = btn.getAttribute('data-full') || src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
       last = btn; box.hidden = false; document.getElementById('lightbox-close').focus();
     });
   });
