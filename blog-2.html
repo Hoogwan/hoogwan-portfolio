@@ -279,6 +279,17 @@ section { scroll-margin-top: calc(var(--masthead-h) + 12px); }
 .spec li b { color: var(--ink); font-weight: 600; margin-right: 4px; }
 .post-fig { margin: 16px 0 0; min-width: 0; }
 .post-fig.narrow { max-width: 680px; }
+.post-fig.portrait { max-width: 420px; }
+.table-scroll { margin-top: 14px; max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.35; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+.data-table caption { caption-side: top; text-align: left; padding: 10px 12px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); background: var(--bg); border-bottom: 1px solid var(--line); }
+.data-table th, .data-table td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--line); }
+.data-table thead th { background: var(--panel); font-size: 12px; font-weight: 600; color: var(--ink-mid); vertical-align: bottom; }
+.data-table thead th small { display: block; font-weight: 500; color: var(--ink-soft); font-size: 11px; }
+.data-table tbody th { font-weight: 700; text-align: left; }
+.data-table tbody tr:last-child th, .data-table tbody tr:last-child td { border-bottom: 0; }
+.data-table .hl { color: var(--signal); font-weight: 700; }
+.data-table thead .hl { color: var(--signal); }
 .post-fig .zoom img { aspect-ratio: auto; }
 .post-fig figcaption { margin-top: 8px; font-size: 13px; color: var(--ink-soft); }
 .fig-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; margin-top: 16px; }
@@ -403,9 +414,115 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
     <a class="back" href="cleanroom.html#blog">← Engineering Projects &amp; Insight</a>
     <div class="kicker" style="margin-top:18px">Blog · Engineering Projects</div>
     <h1>[2] Fab Infrastructure &amp; ICP-CVD Implementation</h1>
-    <figure class="post-hero"><img src="assets/blog-2.jpg" alt="Open process chamber of a deposition tool"></figure>
     <div class="post-body">
-      <p class="post-pending">Write-up coming soon.</p>
+      <section class="post-sec">
+        <h2><span class="sec-n">1.</span> Introduction &amp; Objectives</h2>
+        <p>The primary goal of this setup was to establish stable deposition recipes for four key processes: SiO2, SiN, a-Si, and CH4 plasma for surface modification. In CVD processes, Uniformity is the most critical metric for ensuring reliable device performance across a wafer.</p>
+
+        <h5>Target Specifications</h5>
+        <ul class="spec">
+          <li><b>SiO2:</b> Within-wafer uniformity &lt; 3%</li>
+          <li><b>SiN:</b> Within-wafer uniformity &lt; 4%</li>
+          <li><b>a-Si:</b> Establishing stable deposition gas conditions.</li>
+          <li><b>CH4 Plasma:</b> Achieving rapid plasma ignition and stable matching for surface treatment.</li>
+        </ul>
+        <p>During the initial setup, plasma stability was monitored by analyzing the Reflect Power. By optimizing the impedance matching between the ICP and RF generators, I aimed to minimize reflect power as quickly as possible to ensure process repeatability.</p>
+        <figure class="post-fig portrait">
+          <button class="zoom" type="button" data-cap=""><img src="assets/blog2/chamber.jpg" alt="Open process chamber of the deposition tool with the lid raised" width="1350" height="1800" loading="lazy"></button>
+        </figure>
+      </section>
+
+      <section class="post-sec">
+        <h2><span class="sec-n">2.</span> Experimental Approach: Data-Driven Optimization</h2>
+
+        <h3>2.1 SiO2 Process Stabilization (44 Test Runs)</h3>
+        <p>The optimization of SiO2 was the most rigorous, involving 44 separate test runs. The process utilized SiH4 and O2 as primary precursors, with Ar added to tune the plasma density and uniformity.</p>
+        <h5>Key Parameters Investigated</h5>
+        <ul class="spec">
+          <li>Pressure &amp; APC (Automatic Pressure Control)</li>
+          <li>ICP &amp; RF (Substrate) Power</li>
+          <li>Chuck Temperature &amp; Deposition Time</li>
+        </ul>
+        <p>Thickness was measured at 9 points across an 8-inch wafer to calculate Within-wafer Uniformity. To ensure mass-production readiness, I also conducted Run-to-Run (R2R) tests to verify that uniformity remained consistent over multiple batches.</p>
+        <figure class="post-fig narrow">
+          <button class="zoom" type="button" data-cap="9-point (5 mm × 5 mm) measurement using nanospectroscopy: within-wafer and wafer-to-wafer uniformity."><img src="assets/blog2/nine-point.jpg" alt="Two wafers, Deposition 1 and Deposition 2, each with nine measurement points, showing within-wafer and wafer-to-wafer comparison" width="1800" height="1046" loading="lazy"></button>
+        </figure>
+
+        <h3>2.2 Correlation Matrix and Plasma Insights</h3>
+        <p>Rather than relying solely on trial and error, I utilized Python (sklearn) to generate a Correlation Matrix. This allowed me to visualize how variables like Pressure, O2 flow, and RF power interacted to affect uniformity.</p>
+        <figure class="post-fig narrow">
+          <button class="zoom" type="button" data-cap="Correlation matrix of process variables and uniformity."><img src="assets/blog2/correlation-matrix.jpg" alt="Correlation heatmap of SiH4 flow, O2 flow, SiH4:O2, Ar ring flow, pressure, RF chuck power, ICP power, chuck temperature, time and uniformity" width="1223" height="906" loading="lazy"></button>
+        </figure>
+        <figure class="post-fig">
+          <button class="zoom" type="button" data-cap="Impact of process variables and their interactions on uniformity."><img src="assets/blog2/variable-impact.jpg" alt="Horizontal bar chart of the effect of each process variable and interaction term on uniformity" width="1800" height="474" loading="lazy"></button>
+        </figure>
+
+        <h5>Major Findings from the Analysis</h5>
+        <ul class="spec">
+          <li><b>Gas Ratio Impact:</b> Absolute flow rates were less critical than the SiH4/O2 ratio. High SiH4 concentrations led to center-thick deposition, while high O2 concentrations shifted the thickness to the edge due to the ICP skin effect.</li>
+          <li><b>Pressure &amp; Energy:</b> High pressure increased plasma density but lowered ion energy. I identified an optimization point based on the Paschen Curve to balance ion bombardment and density.</li>
+          <li><b>RF Power (Substrate):</b> Low RF power allowed more radicals to exist at the surface, while high power increased sputtering effects, which could either improve or degrade uniformity depending on the energy balance.</li>
+        </ul>
+      </section>
+
+      <section class="post-sec">
+        <h2><span class="sec-n">3.</span> Results: Achieving the 2.7% Uniformity Baseline</h2>
+        <p>By integrating theoretical plasma behavior with statistical analysis, I moved away from the standard "out-of-the-box" recipes provided by the manufacturer.</p>
+        <h5>The Optimized Recipe</h5>
+        <ul class="spec">
+          <li>High Pressure / Low RF Power</li>
+          <li>Low SiH4 Flow / High O2 Flow</li>
+        </ul>
+        <p class="callout"><b>Result:</b> Successfully achieved 2.7% Uniformity for SiO2, surpassing the initial 3% target.</p>
+        <figure class="post-fig">
+          <button class="zoom" type="button" data-cap="Process parameter effect: from the baseline recipe (uniformity 4.89) to the optimized recipe (uniformity 2.7)."><img src="assets/blog2/optimized-recipe.jpg" alt="Recipe tables before and after optimization, with notes on lower RF power, higher O2 flow and Ar bombardment; uniformity improves from 4.89 to 2.7" width="1800" height="925" loading="lazy"></button>
+        </figure>
+
+        <h5>Run-to-Run (R2R) Test · 26-Feb-25</h5>
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption>Recipe (identical for runs 41–43)</caption>
+            <thead>
+              <tr><th scope="col">Step</th><th scope="col">100% SiH4 (Ring)<small>sccm</small></th><th scope="col">O2 (ICP)<small>sccm</small></th><th scope="col">SiH4:O2</th><th scope="col">Ar (Ring)</th><th scope="col">Press<small>mTorr</small></th><th scope="col">RF<small>W</small></th><th scope="col">ICP<small>W</small></th><th scope="col">Temp<small>℃</small></th><th scope="col">Time<small>min</small></th><th scope="col">He<small>T</small></th><th scope="col">He leak<small>sccm/T</small></th><th scope="col">Wafer Size</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">SiO2</th><td>60</td><td>100</td><td>0.60</td><td>70</td><td>8</td><td>30</td><td>1000</td><td>150</td><td>0.00</td><td>0</td><td>0</td><td>8</td></tr>
+              <tr><th scope="row">Depo</th><td>60</td><td>100</td><td>0.60</td><td>70</td><td>8</td><td>0</td><td>2500</td><td>150</td><td>2.00</td><td>0</td><td>0</td><td>8</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <caption>Results · thickness (Å) at 9 points</caption>
+            <thead>
+              <tr><th scope="col">Run</th><th scope="col" class="hl">Within U%</th><th scope="col">Avg<small>Å</small></th><th scope="col">D/R<small>Å/min</small></th><th scope="col">12(T)</th><th scope="col">1</th><th scope="col">3(R)</th><th scope="col">5</th><th scope="col">6(B)</th><th scope="col">7</th><th scope="col">9(L)</th><th scope="col">11</th><th scope="col">C</th><th scope="col">DC bias<small>V</small></th><th scope="col">APC<small>deg/%</small></th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">41</th><td class="hl">2.80%</td><td>3797</td><td>1898.5</td><td>3696.4</td><td>3851.7</td><td>3707.6</td><td>3831.3</td><td>3733</td><td>3845.3</td><td>3734.6</td><td>3863.3</td><td>3909</td><td>7.3</td><td>26</td></tr>
+              <tr><th scope="row">42</th><td class="hl">2.78%</td><td>3826</td><td>1913.2</td><td>3725.3</td><td>3873.2</td><td>3753.8</td><td>3859.6</td><td>3767.6</td><td>3869.1</td><td>3769.1</td><td>3882.1</td><td>3937.7</td><td>6.38</td><td>25.8</td></tr>
+              <tr><th scope="row">43</th><td class="hl">2.69%</td><td>3840</td><td>1919.9</td><td>3745.1</td><td>3896.3</td><td>3764.9</td><td>3876</td><td>3771.1</td><td>3884.8</td><td>3761.2</td><td>3907.8</td><td>3951.4</td><td>7.3</td><td>26</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="post-sec reflections">
+        <h2><span class="sec-n">4.</span> Reflections: Engineering Insights &amp; Lessons Learned</h2>
+        <div class="insights">
+          <div class="insight">
+            <h3>Multivariate Complexity &amp; Holistic Design</h3>
+            <p>ICP-CVD setup is a masterclass in managing intercorrelated variables. I learned that a single adjustment—such as the SiH4/O2 ratio—can completely invert a deposition profile from convex to concave. This project reinforced that achieving high-precision uniformity requires a systemic approach rather than isolated parameter tuning.</p>
+          </div>
+          <div class="insight">
+            <h3>Hardware-Specific Architecture</h3>
+            <p>A key takeaway was the impact of subtle hardware differences. Even with identical process conditions, the unique chuck height in our TEOS-capable system significantly altered the plasma environment compared to standard models. It taught me that an engineer must deeply understand the specific physical architecture of the chamber to translate "proven" recipes into actual results.</p>
+          </div>
+          <div class="insight">
+            <h3>Synergy of Data Science and Plasma Physics</h3>
+            <p>Integrating a Correlation Matrix (sklearn) with theoretical plasma physics was a game-changer. While the data identified "what" was happening, my understanding of the skin effect and Paschen curve explained "why." This synergy between statistical analysis and physical insight allowed me to surpass the 3% uniformity target, reaching a robust 2.7% baseline.</p>
+          </div>
+        </div>
+      </section>
     </div>
     <nav class="more-posts" aria-label="Other projects">
       <h2>More Engineering Projects</h2>
@@ -421,5 +538,25 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
     <span>© 2026 Hoogwan Lee</span>
   </div>
 </footer>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Enlarged figure">
+  <button class="lightbox-close" type="button" id="lightbox-close">Close</button>
+  <figure><img id="lightbox-img" alt=""><figcaption id="lightbox-cap"></figcaption></figure>
+</div>
+<script>
+(function () {
+  var box = document.getElementById('lightbox'), img = document.getElementById('lightbox-img'), cap = document.getElementById('lightbox-cap'), last = null;
+  function close() { box.hidden = true; img.removeAttribute('src'); if (last) last.focus(); }
+  Array.prototype.forEach.call(document.querySelectorAll('.zoom'), function (btn) {
+    btn.addEventListener('click', function () {
+      var src = btn.querySelector('img');
+      img.src = src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
+      last = btn; box.hidden = false; document.getElementById('lightbox-close').focus();
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) close(); });
+})();
+</script>
 </body>
 </html>
