@@ -152,8 +152,11 @@ section { scroll-margin-top: calc(var(--masthead-h) + 12px); }
 .facts li { display: grid; grid-template-columns: 128px 1fr; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); align-items: baseline; }
 .facts li > span { min-width: 0; }
 .facts li > span:first-child { color: var(--ink-soft); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-.row-photo.zoom { display: block; width: 220px; max-width: 100%; margin-top: 14px; padding: 4px; }
+.row-photo.zoom { display: block; width: 100%; max-width: 170px; margin-top: 14px; padding: 4px; }
 .row-photo.zoom img { aspect-ratio: 4 / 3; object-fit: cover; }
+.scholar-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; padding: 9px 16px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: none; transition: border-color .15s, color .15s; }
+.scholar-link svg { color: var(--signal); }
+.scholar-link:hover { border-color: var(--signal); color: var(--signal); }
 .thesis { font-family: var(--serif); font-style: italic; font-size: 16px; }
 
 /* figures inside research rows */
@@ -361,6 +364,7 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
   .nb-btn { right: max(16px, env(safe-area-inset-right, 0px)); }
   .row { grid-template-columns: 1fr; gap: 8px; }
   .when .deg { display: inline; font-size: 22px; margin-right: 8px; }
+  .row-photo.zoom { max-width: 220px; }
   .facts li { grid-template-columns: 1fr; gap: 2px; }
   .plates { grid-template-columns: 1fr; }
   .course-list.two { columns: 1; }
