@@ -280,6 +280,17 @@ section { scroll-margin-top: calc(var(--masthead-h) + 12px); }
 .post-fig { margin: 16px 0 0; min-width: 0; }
 .post-fig.narrow { max-width: 680px; }
 .post-fig.portrait { max-width: 420px; }
+.fig-grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 16px; align-items: start; }
+.fig-grid4 .post-fig { margin: 0; }
+.fig-grid4 .zoom { padding: 6px; }
+.fig-grid4 .post-fig .zoom img { aspect-ratio: 3 / 4; object-fit: cover; }
+.fig-grid4 figcaption { font-weight: 600; color: var(--ink-mid); }
+.post-sec > .phases { max-width: none; }
+.phases { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.phases li { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px 18px 6px; background: var(--panel); border-radius: 4px; border-top: 3px solid var(--signal); min-width: 0; }
+.phase-n { font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); }
+.phases b { font-family: var(--serif); font-size: 17px; color: var(--ink); }
+.phases p { font-size: 14.5px; line-height: 1.65; }
 .table-scroll { margin-top: 14px; max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.35; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
 .data-table caption { caption-side: top; text-align: left; padding: 10px 12px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); background: var(--bg); border-bottom: 1px solid var(--line); }
@@ -359,6 +370,8 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
   .courses-body { grid-template-columns: 1fr; padding-left: 0; }
   .co-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fig-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phases { grid-template-columns: 1fr; }
   .lead-pub { grid-template-columns: 160px 1fr; }
   .lead-pub .pub-year { grid-column: 2; grid-row: 1; text-align: left; padding: 0; font-size: 13px; }
   .lead-pub .pub-body { grid-column: 2; }
@@ -414,9 +427,73 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
     <a class="back" href="cleanroom.html#blog">← Engineering Projects &amp; Insight</a>
     <div class="kicker" style="margin-top:18px">Blog · Engineering Projects</div>
     <h1>[3] S-fab Operations: Equipment Maintenance &amp; User Training</h1>
-    <figure class="post-hero"><img src="assets/blog-3.jpg" alt="EVG 501 wafer bonder in the yellow-light cleanroom"></figure>
     <div class="post-body">
-      <p class="post-pending">Write-up coming soon.</p>
+      <section class="post-sec">
+        <h2><span class="sec-n">1.</span> Role and Responsibilities</h2>
+        <p>As a primary manager of S-fab, I was responsible for the end-to-end operational integrity of the cleanroom environment. My role encompassed infrastructure management, equipment installation, and technical instruction, ensuring that the facility met the rigorous demands of both internal and external research projects.</p>
+      </section>
+
+      <section class="post-sec">
+        <h2><span class="sec-n">2.</span> Managed Equipment Portfolio</h2>
+        <p>I personally managed and maintained a suite of high-end semiconductor fabrication and characterization tools:</p>
+        <ul class="spec">
+          <li><b>Deposition:</b> ICP-CVD (Oxford Instruments)</li>
+          <li><b>Lithography &amp; Bonding:</b> 8-inch Mask Aligner (EVG 610), Wafer Bonder (EVG 501)</li>
+          <li><b>Characterization:</b> Shear Test Systems (MFM 1200, DGFT)</li>
+        </ul>
+        <div class="fig-grid4">
+          <figure class="post-fig">
+            <button class="zoom" type="button" data-cap="ICP CVD"><img src="assets/blog3/icpcvd.jpg" alt="Oxford Instruments PlasmaPro 100 ICPCVD system" width="1050" height="1400" loading="lazy"></button>
+            <figcaption>ICP CVD</figcaption>
+          </figure>
+          <figure class="post-fig">
+            <button class="zoom" type="button" data-cap="8-inch Aligner"><img src="assets/blog3/aligner.jpg" alt="EVG 610 mask aligner under yellow light" width="1050" height="1400" loading="lazy"></button>
+            <figcaption>8-inch Aligner</figcaption>
+          </figure>
+          <figure class="post-fig">
+            <button class="zoom" type="button" data-cap="Wafer Bonder"><img src="assets/blog3/bonder.jpg" alt="EVG 501 wafer bonder with its control screen" width="1050" height="1400" loading="lazy"></button>
+            <figcaption>Wafer Bonder</figcaption>
+          </figure>
+          <figure class="post-fig">
+            <button class="zoom" type="button" data-cap="Shear Test systems"><img src="assets/blog3/shear-tester.jpg" alt="DGFT shear tester with stereo microscope and monitor" width="1400" height="1050" loading="lazy"></button>
+            <figcaption>Shear Test systems</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="post-sec">
+        <h2><span class="sec-n">3.</span> Operations &amp; Preventive Maintenance (PM)</h2>
+        <p>To maximize tool uptime and process repeatability, I executed comprehensive maintenance protocols:</p>
+        <ul class="spec">
+          <li><b>System Upkeep:</b> Conducted routine chamber cleaning, gas supply management, and chiller fluid replenishment.</li>
+          <li><b>Troubleshooting:</b> Acted as the first responder for equipment malfunctions, diagnosing hardware/software errors to minimize facility downtime.</li>
+          <li><b>Standardization:</b> Authored and updated Standard Operating Procedures (SOPs) to ensure safe and consistent tool operation for all users.</li>
+          <li><b>Installation:</b> Managed the initial setup and commissioning of new equipment, ensuring seamless integration into the existing Fab infrastructure.</li>
+        </ul>
+      </section>
+
+      <section class="post-sec">
+        <h2><span class="sec-n">4.</span> User Training &amp; Technical Consultation</h2>
+        <p>I developed a structured training program to empower researchers and support external industry-academic collaborations:</p>
+        <ul class="spec">
+          <li><b>External Process Services:</b> Provided expert consultation and recipe development for external partners, delivering high-quality fabrication results tailored to specific project requirements.</li>
+        </ul>
+        <h5>3-Step "Self-User" Certification Program</h5>
+        <ol class="phases">
+          <li><span class="phase-n">Phase 1</span><b>Fundamental Theory</b><p>Comprehensive briefing on equipment mechanisms, safety protocols, and general capabilities.</p></li>
+          <li><span class="phase-n">Phase 2</span><b>Customized Operation</b><p>Hands-on instruction focused on the user’s specific research applications and experimental goals.</p></li>
+          <li><span class="phase-n">Phase 3</span><b>Proficiency Evaluation</b><p>Final assessment where I observed the user’s independent operation to verify technical competence and safety compliance before granting access.</p></li>
+        </ol>
+      </section>
+
+      <section class="post-sec reflections">
+        <h2>Reflections: The Engineer as a System Architect</h2>
+        <div class="insights">
+          <div class="insight">
+            <p>Managing S-fab was more than just maintaining hardware; it was about architecting a reliable research ecosystem. Through the 3-step training program, I learned that clear communication of technical nuances is just as vital as the engineering itself. Handling diverse external requests also sharpened my ability to quickly adapt established recipes to meet unique, high-precision needs. This experience solidified my capacity to lead a technical facility and mentor the next generation of engineers.</p>
+          </div>
+        </div>
+      </section>
     </div>
     <nav class="more-posts" aria-label="Other projects">
       <h2>More Engineering Projects</h2>
@@ -432,5 +509,25 @@ footer .wrap { padding-block: 20px; display: flex; flex-wrap: wrap; justify-cont
     <span>© 2026 Hoogwan Lee</span>
   </div>
 </footer>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Enlarged figure">
+  <button class="lightbox-close" type="button" id="lightbox-close">Close</button>
+  <figure><img id="lightbox-img" alt=""><figcaption id="lightbox-cap"></figcaption></figure>
+</div>
+<script>
+(function () {
+  var box = document.getElementById('lightbox'), img = document.getElementById('lightbox-img'), cap = document.getElementById('lightbox-cap'), last = null;
+  function close() { box.hidden = true; img.removeAttribute('src'); if (last) last.focus(); }
+  Array.prototype.forEach.call(document.querySelectorAll('.zoom'), function (btn) {
+    btn.addEventListener('click', function () {
+      var src = btn.querySelector('img');
+      img.src = src.getAttribute('src'); img.alt = src.alt; cap.textContent = btn.getAttribute('data-cap') || '';
+      last = btn; box.hidden = false; document.getElementById('lightbox-close').focus();
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !box.hidden) close(); });
+})();
+</script>
 </body>
 </html>
